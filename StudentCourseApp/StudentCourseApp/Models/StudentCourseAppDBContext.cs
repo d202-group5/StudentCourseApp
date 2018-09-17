@@ -9,10 +9,10 @@ namespace StudentCourseApp.Models
         public virtual DbSet<Course> Course { get; set; }
         public virtual DbSet<Enrollment> Enrollment { get; set; }
         public virtual DbSet<Student> Student { get; set; }
+        public virtual DbSet<TopicArea> TopicArea { get; set; }
 
         public StudentCourseAppDBContext(DbContextOptions<StudentCourseAppDBContext> options) : base(options)
         { }
-
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,6 +39,13 @@ namespace StudentCourseApp.Models
                 entity.Property(e => e.Semester)
                     .IsRequired()
                     .HasColumnType("char(1)");
+
+                entity.Property(e => e.TId).HasColumnName("TId");
+
+                entity.HasOne(d => d.TopicA)
+                    .WithMany(p => p.Course)
+                    .HasForeignKey(d => d.TId)
+                    .HasConstraintName("FK_TpcArea");
             });
 
             modelBuilder.Entity<Enrollment>(entity =>
@@ -73,6 +80,15 @@ namespace StudentCourseApp.Models
                 entity.Property(e => e.Phone)
                     .HasMaxLength(12)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<TopicArea>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.AreaName)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
         }
     }

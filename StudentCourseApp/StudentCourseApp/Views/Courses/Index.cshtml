@@ -6,66 +6,92 @@
 
 <h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Select topic area: 
+            <select name="topicChoice" asp-items="ViewBag.topics"></select>
+                
+
+          
+            
+            
+            
+            
+            
+            <input type="submit" value="Filter" class="btn btn-default" />
+            <br />
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model=>model.Id)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cname)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Desc)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Semester)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PreReq)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Compulsory)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.YearLevel)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Desc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Semester)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PreReq)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Compulsory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearLevel)
+            </th>
+            <th>
+                Topic Area
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem=>item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Desc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Semester)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PreReq)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Compulsory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.YearLevel)
-            </td>
-            <td>
-               
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
-                
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Desc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Semester)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PreReq)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Compulsory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TopicA.AreaName)
+                </td>
+                <td>
+
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

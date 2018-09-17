@@ -19,9 +19,26 @@ namespace StudentCourseApp.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String topicChoice)
         {
-            return View(await _context.Course.ToListAsync());
+            ViewBag.topics = new SelectList(new[]
+            {
+                new {id="S", name="Software Development"},
+                new{id="I", name="Information Management"},
+                new{id="T", name="Technology"},
+            },
+            "id", "name", topicChoice);
+
+            var courses = _context.Course
+                .Include(c => c.TopicA)
+                .AsNoTracking();
+
+            if (!String.IsNullOrEmpty(topicChoice))
+            {
+                courses = courses.Where(c => c.TopicA.AreaName.StartsWith(topicChoice));
+            }
+
+            return View(await courses.ToListAsync());
         }
 
         // GET: Courses/Details/5
