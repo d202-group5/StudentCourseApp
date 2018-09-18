@@ -9,7 +9,7 @@ namespace StudentCourseApp.Models
         public string CourseId { get; set; }
         public int? Sid { get; set; }
 
-        public char FutureEnroll { get; set; }
+        public string FutureEnroll { get; set; }
 
         public Course Course { get; set; }
         public Student S { get; set; }
