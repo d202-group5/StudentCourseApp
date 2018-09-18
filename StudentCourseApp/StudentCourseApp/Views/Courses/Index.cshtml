@@ -72,13 +72,26 @@
                     @Html.DisplayFor(modelItem => item.Desc)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Semester)
+                     @if (item.Semester == "B")
+                    {
+                       <p>1 + 2</p>
+
+                    }
+                        else
+                    {
+                        @Html.DisplayFor(modelItem => item.Semester)
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PreReq)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Compulsory)
+                    @if (item.Compulsory=="Y")
+                    {
+                        <p>Yes</p>
+
+                    }
+                    
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.YearLevel)
