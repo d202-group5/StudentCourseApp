@@ -36,7 +36,7 @@ namespace StudentCourseApp.Controllers
             var enrollment = await _context.Enrollment
                 .Include(e => e.Course)
                 .Include(e => e.S)
-                .Include(e => e.FutureEnroll)
+              
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (enrollment == null)
             {
