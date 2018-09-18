@@ -19,10 +19,29 @@ namespace StudentCourseApp.Controllers
         }
 
         // GET: Enrollments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String selectedId)
         {
+            ViewBag.students = new SelectList(new[]
+           {
+                new {id="", name="See All Enrollments"},
+                new{id="101", name="John Smith"},
+                new{id="102", name="Mary Jane"},
+            },
+           "id", "name", selectedId);
+
+            var enrollments = _context.Enrollment
+                .Include(e=>e.S)
+                .Include(e=>e.Course)
+                .AsNoTracking();
+
+            if (!String.IsNullOrEmpty(selectedId))
+            {
+                
+                enrollments = enrollments.Where(e => e.Sid.ToString().StartsWith(selectedId)&&e.FutureEnroll.StartsWith("N"));
+            }
+
             var studentCourseAppDBContext = _context.Enrollment.Include(e => e.Course).Include(e => e.S);
-            return View(await studentCourseAppDBContext.ToListAsync());
+            return View(await enrollments.ToListAsync());
         }
 
         // GET: Enrollments/Details/5
