@@ -30,14 +30,14 @@ namespace StudentCourseApp.Controllers
            "id", "name", selectedId);
 
             var enrollments = _context.Enrollment
-                .Include(e=>e.S)
-                .Include(e=>e.Course)
+                .Include(e => e.S)
+                .Include(e => e.Course)
                 .AsNoTracking();
 
             if (!String.IsNullOrEmpty(selectedId))
             {
-                
-                enrollments = enrollments.Where(e => e.Sid.ToString().StartsWith(selectedId)&&e.FutureEnroll.StartsWith("N"));
+
+                enrollments = enrollments.Where(e => e.Sid.ToString().StartsWith(selectedId) && e.FutureEnroll.StartsWith("N"));
             }
 
             var studentCourseAppDBContext = _context.Enrollment.Include(e => e.Course).Include(e => e.S);
@@ -55,7 +55,6 @@ namespace StudentCourseApp.Controllers
             var enrollment = await _context.Enrollment
                 .Include(e => e.Course)
                 .Include(e => e.S)
-              
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (enrollment == null)
             {
@@ -78,7 +77,7 @@ namespace StudentCourseApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CourseId,Sid")] Enrollment enrollment)
+        public async Task<IActionResult> Create([Bind("Id,CourseId,Sid,FutureEnroll")] Enrollment enrollment)
         {
             if (ModelState.IsValid)
             {
@@ -114,7 +113,7 @@ namespace StudentCourseApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseId,Sid")] Enrollment enrollment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseId,Sid,FutureEnroll")] Enrollment enrollment)
         {
             if (id != enrollment.Id)
             {
