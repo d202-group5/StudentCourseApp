@@ -77,17 +77,19 @@ namespace StudentCourseApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CourseId,Sid,FutureEnroll")] Enrollment enrollment)
+        public async Task<IActionResult> Create(
+      [Bind("CourseId,Sid,FutureEnroll")] Enrollment enrol)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(enrollment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id", enrollment.CourseId);
-            ViewData["Sid"] = new SelectList(_context.Student, "Id", "Id", enrollment.Sid);
-            return View(enrollment);
+          
+                if (ModelState.IsValid)
+                {
+                    _context.Add(enrol);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            
+           
+            return View(enrol);
         }
 
         // GET: Enrollments/Edit/5
