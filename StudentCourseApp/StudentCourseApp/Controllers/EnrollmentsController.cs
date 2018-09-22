@@ -21,13 +21,8 @@ namespace StudentCourseApp.Controllers
         // GET: Enrollments
         public async Task<IActionResult> Index(String selectedId)
         {
-            ViewBag.students = new SelectList(new[]
-           {
-                new {id="", name="See All Enrollments"},
-                new{id="101", name="John Smith"},
-                new{id="102", name="Mary Jane"},
-            },
-           "id", "name", selectedId);
+
+            ViewData["students"] = new SelectList(_context.Student, "Id", "Id");
 
             var enrollments = _context.Enrollment
                 .Include(e => e.S)
@@ -65,10 +60,17 @@ namespace StudentCourseApp.Controllers
         }
 
         // GET: Enrollments/Create
-        public IActionResult Create()
+        public IActionResult Create(string historyToggle)
         {
             ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id");
             ViewData["Sid"] = new SelectList(_context.Student, "Id", "Id");
+
+            ViewBag.historyToggleData = new SelectList(new[]
+                       {
+                new {id="Y", name="Future Enrollment"},
+                new{id="N", name="Previously Completed"},
+            },
+                       "id", "name", historyToggle);
             return View();
         }
 
@@ -85,7 +87,7 @@ namespace StudentCourseApp.Controllers
                 {
                     _context.Add(enrol);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Create));
                 }
             
            
