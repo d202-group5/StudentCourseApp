@@ -50,7 +50,7 @@ namespace StudentCourseApp.Models
 
             modelBuilder.Entity<Enrollment>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CourseId).HasColumnType("char(4)");
 
