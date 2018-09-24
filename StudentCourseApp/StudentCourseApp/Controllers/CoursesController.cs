@@ -19,15 +19,33 @@ namespace StudentCourseApp.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index(String topicChoice)
+        public async Task<IActionResult> Index(String topicChoice, String compulsoryChoice, String yearChoice)
         {
             ViewBag.topics = new SelectList(new[]
             {
+                new{id="",name="All courses"},
                 new {id="S", name="Software Development"},
                 new{id="I", name="Information Management"},
                 new{id="T", name="Technology"},
             },
             "id", "name", topicChoice);
+
+            ViewBag.compulsory = new SelectList(new[]
+           {
+                new {id="", name="All Courses"},
+                new{id="Y", name="Compulsory Courses"},
+                new{id="N", name="Optional Courses"},
+            },
+           "id", "name", compulsoryChoice);
+
+            ViewBag.year = new SelectList(new[]
+          {
+                new {id="", name="All Years"},
+                new{id="1", name="First Year"},
+                new{id="2", name="Second Year"},
+                new{id="3", name="Third Year"},
+            },
+          "id", "name", yearChoice);
 
             var courses = _context.Course
                 .Include(c => c.TopicA)
@@ -37,6 +55,18 @@ namespace StudentCourseApp.Controllers
             {
                 courses = courses.Where(c => c.TopicA.AreaName.StartsWith(topicChoice));
             }
+
+            if (!string.IsNullOrEmpty(compulsoryChoice))
+            {
+                courses = courses.Where(c => c.Compulsory.StartsWith(compulsoryChoice));
+            }
+
+            if (!string.IsNullOrEmpty(yearChoice))
+            {
+                courses = courses.Where(c => c.YearLevel.ToString().StartsWith(yearChoice));
+            }
+
+
 
             return View(await courses.ToListAsync());
         }
