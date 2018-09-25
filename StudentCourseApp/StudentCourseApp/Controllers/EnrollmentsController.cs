@@ -60,8 +60,12 @@ namespace StudentCourseApp.Controllers
         }
 
         // GET: Enrollments/Create
-        public IActionResult Create(string historyToggle)
+        public IActionResult Create(string historyToggle, string msg)
         {
+
+            ViewBag.ErrorMessage = msg;
+            ViewData["CourseName"] = new SelectList(_context.Course, "Cname", "Cname");
+
             ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id");
             ViewData["Sid"] = new SelectList(_context.Student, "Id", "Id");
 
@@ -82,6 +86,8 @@ namespace StudentCourseApp.Controllers
         public async Task<IActionResult> Create(
       [Bind("CourseId,Sid,FutureEnroll")] Enrollment enrol)
         {
+
+            try { 
           
                 if (ModelState.IsValid)
                 {
@@ -89,8 +95,16 @@ namespace StudentCourseApp.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Create));
                 }
-            
-           
+            }
+
+            catch (DbUpdateException exception)
+            {
+                
+                return RedirectToAction("Create", new { msg = "Error PK Violation" });
+
+            }
+
+
             return View(enrol);
         }
 

@@ -47,6 +47,8 @@ namespace StudentCourseApp.Controllers
             },
           "id", "name", yearChoice);
 
+          
+
             var courses = _context.Course
                 .Include(c => c.TopicA)
                 .AsNoTracking();
@@ -65,10 +67,13 @@ namespace StudentCourseApp.Controllers
             {
                 courses = courses.Where(c => c.YearLevel.ToString().StartsWith(yearChoice));
             }
+            
+                return View(await courses.ToListAsync());
+            
 
 
 
-            return View(await courses.ToListAsync());
+            
         }
 
         // GET: Courses/Details/5
