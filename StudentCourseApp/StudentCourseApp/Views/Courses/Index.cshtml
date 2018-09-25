@@ -11,19 +11,27 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Select topic area: 
+            Select topic area:
             <select name="topicChoice" asp-items="ViewBag.topics"></select>
-                
 
-          
-            
-            
-            
-            
-            
+            <input type="submit" value="Filter" class="btn btn-default" />
+            <br />
+
+            Course Type:
+            <select name="compulsoryChoice" asp-items="ViewBag.compulsory"></select>
+
+            <input type="submit" value="Filter" class="btn btn-default" />
+            <br />
+
+            Year Level:
+            <select name="yearChoice" asp-items="ViewBag.year"></select>
+
             <input type="submit" value="Filter" class="btn btn-default" />
             <br />
             <a asp-action="Index">Back to Full List</a>
+
+
+
         </p>
     </div>
 </form>

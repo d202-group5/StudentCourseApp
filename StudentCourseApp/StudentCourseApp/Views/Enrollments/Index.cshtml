@@ -24,15 +24,17 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FutureEnroll)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sid)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Course)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.S)
+                Course Status
             </th>
+
+
             <th></th>
         </tr>
     </thead>
@@ -40,14 +42,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FutureEnroll)
+                @Html.DisplayFor(modelItem => item.Sid)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Course.Id)
+                @Html.DisplayFor(modelItem => item.Course.Id) - @Html.DisplayFor(modelItem=>item.Course.Cname)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.S.Id)
+                @if (item.FutureEnroll == "N")
+        {
+            <p>Complete</p>
+
+}
+else
+{
+        <p>Future Course</p>
+}
             </td>
+
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
