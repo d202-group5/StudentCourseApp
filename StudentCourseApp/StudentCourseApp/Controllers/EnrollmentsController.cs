@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentCourseApp.Models;
+using System.Text;
+using OfficeOpenXml;
+
 
 namespace StudentCourseApp.Controllers
 {
@@ -37,6 +40,7 @@ namespace StudentCourseApp.Controllers
 
             var studentCourseAppDBContext = _context.Enrollment.Include(e => e.Course).Include(e => e.S);
             return View(await enrollments.ToListAsync());
+      
         }
 
         // GET: Enrollments/Details/5
@@ -197,6 +201,43 @@ namespace StudentCourseApp.Controllers
         private bool EnrollmentExists(int id)
         {
             return _context.Enrollment.Any(e => e.Id == id);
+        }
+
+        // export
+        public IActionResult CSV()
+        {
+            var comlumHeadrs = new string[]
+            {
+                "Course Id",
+                "Name",
+                "Description",
+                "Semester",
+                "Year"
+            };
+
+            //hard coded sid for now
+            int sid = 101;
+
+            var enrollments = _context.Enrollment
+                .Include(e => e.S)
+                .Include(e => e.Course)
+                .AsNoTracking();
+
+            enrollments = enrollments.Where(e => e.Sid.Equals(sid));
+
+            //Build the file content
+
+            var exportdata = _context.Enrollment.Include(e => e.Course).Include(e => e.S);
+
+            //var em = new StringBuilder();
+            //exportdata.ForEach(line =>
+            //{
+            //    exportdata.AppendLine(string.Join(",", line));
+            //});
+
+            byte[] buffer = Encoding.ASCII.GetBytes($"{string.Join(",", comlumHeadrs)}\r\n{exportdata.ToString()}");
+            return File(buffer, "text/csv", $"Enrolment.csv");
+
         }
     }
 }
